@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import '../routes/routegenerator.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -10,6 +12,20 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Timer(
+      const Duration(seconds: 4),
+          () =>
+          Navigator.pushReplacementNamed(
+              context,
+              RouteGenerator.ROTA_INICIAL
+          ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if(defaultTargetPlatform == TargetPlatform.android){
