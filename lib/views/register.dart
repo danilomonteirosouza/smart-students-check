@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import '../routes/routegenerator.dart';
+import '../reusable_widgets/elevatedbuttonlong.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -13,6 +15,13 @@ class _RegisterState extends State<Register> {
   String nome = '';
   String email = '';
   String password = '';
+
+  void initialRoute(){
+    Navigator.pushNamed(
+        context,
+        RouteGenerator.ROTA_INICIAL
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,17 +87,12 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                     const SizedBox(height: 15),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (email == "luizgabriel@desenvolvedor.com.br" &&
-                            password == "123") {
-                          print("Login correto");
-                        } else {
-                          print("Login inválido");
-                        }
+                    BotaoCustomizadoLong(
+                      texto: "Entrar" ,
+                      onPressed: (){
+                        initialRoute();
                       },
-                      child: const Text("Entrar"),
-                    ),
+                    )
                   ],
                 ),
               ),
