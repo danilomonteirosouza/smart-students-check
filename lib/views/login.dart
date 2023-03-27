@@ -16,7 +16,7 @@ class _LoginState extends State<Login> {
       return Scaffold(
           backgroundColor: const Color(0xff00ceff),
           appBar: AppBar(
-            title: const Text('In progress ...'),
+            title: const Text('In progress.'),
             backgroundColor: const Color(0xff00ceff),
             elevation: 0.0,
             centerTitle: true,
