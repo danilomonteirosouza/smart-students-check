@@ -31,7 +31,7 @@ class _LoginState extends State<Login> {
                   Colors.white38,
                 ],
               )
-          ),
+            ),
           width: double.infinity,
           height: double.infinity,
           child: Column(
@@ -42,6 +42,9 @@ class _LoginState extends State<Login> {
                 child: TextField(
                   decoration: InputDecoration(
                       labelText: "Email",
+                      labelStyle: TextStyle(
+                          color: Colors.black
+                      ),
                       border: OutlineInputBorder()
                   ),
                 ),
@@ -51,13 +54,15 @@ class _LoginState extends State<Login> {
                 child: TextField(
                   decoration: InputDecoration(
                       labelText: "Senha",
+                      labelStyle: TextStyle(
+                        color: Colors.black
+                      ),
                       border: OutlineInputBorder()
                   ),
                 ),
               ),
             ],
           ),
-
         ),
       );
     } else if(defaultTargetPlatform == TargetPlatform.iOS){

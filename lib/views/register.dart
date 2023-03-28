@@ -167,7 +167,12 @@ class _RegisterState extends State<Register> {
     return Scaffold(
       backgroundColor: const Color(0xff00ceff),
       appBar: AppBar(
-        title: const Text('Cadastro'),
+        title: Text('Cadastro',
+            style: TextStyle(
+            fontSize: 27,
+            color: Colors.white
+          ),
+        ),
         backgroundColor: const Color(0xff00ceff),
         elevation: 0.0,
         centerTitle: true,
@@ -206,7 +211,7 @@ class _RegisterState extends State<Register> {
                         labelText: "Nome",
                         border: OutlineInputBorder(),
                         labelStyle: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -222,7 +227,7 @@ class _RegisterState extends State<Register> {
                         labelText: "Email",
                         border: OutlineInputBorder(),
                         labelStyle: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -238,7 +243,7 @@ class _RegisterState extends State<Register> {
                         labelText: "Password",
                         border: OutlineInputBorder(),
                         labelStyle: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                     ),
