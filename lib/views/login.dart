@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import '../reusable_widgets/elevatedbuttonlong.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
-    if(defaultTargetPlatform == TargetPlatform.android){
+    if (defaultTargetPlatform == TargetPlatform.android) {
       return Scaffold(
         backgroundColor: const Color(0xff00ceff),
         appBar: AppBar(
@@ -28,10 +29,10 @@ class _LoginState extends State<Login> {
                 end: Alignment.bottomCenter,
                 colors: [
                   Color(0xff00ceff),
+                  Colors.lightBlueAccent,
                   Colors.white38,
                 ],
-              )
-            ),
+              )),
           width: double.infinity,
           height: double.infinity,
           child: Column(
@@ -42,11 +43,8 @@ class _LoginState extends State<Login> {
                 child: TextField(
                   decoration: InputDecoration(
                       labelText: "Email",
-                      labelStyle: TextStyle(
-                          color: Colors.black
-                      ),
-                      border: OutlineInputBorder()
-                  ),
+                      labelStyle: TextStyle(color: Colors.black),
+                      border: OutlineInputBorder()),
                 ),
               ),
               Padding(
@@ -54,26 +52,21 @@ class _LoginState extends State<Login> {
                 child: TextField(
                   decoration: InputDecoration(
                       labelText: "Senha",
-                      labelStyle: TextStyle(
-                        color: Colors.black
-                      ),
-                      border: OutlineInputBorder()
-                  ),
+                      labelStyle: TextStyle(color: Colors.black),
+                      border: OutlineInputBorder()),
                 ),
               ),
+              const SizedBox(height: 70),
+              BotaoCustomizadoLong(
+                texto: "Entrar",
+                onPressed: () {},
+              ),
+              SizedBox(height: 50),
             ],
           ),
         ),
       );
-    } else if(defaultTargetPlatform == TargetPlatform.iOS){
-      return const CupertinoPageScaffold(
-          navigationBar: CupertinoNavigationBar(
-            middle: Text('In progress ...'),
-          ),
-          child: Text('In Progress')
-      );
-    } else {
-      return const Text('System not detected');
     }
+    return const SizedBox();
   }
 }
