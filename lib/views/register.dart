@@ -41,9 +41,9 @@ class _RegisterState extends State<Register> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
-              flex: 1,
+              flex: 7,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(15, 0, 15, 3),
                 child: Column(
                   //Widget coluna usado junto com o TextField para colocar as strings recebidas do usuario
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -96,6 +96,28 @@ class _RegisterState extends State<Register> {
                   ],
                 ),
               ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 3),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const <Widget>[
+                    SafeArea(
+                      child: Text(
+                        '\u00a9Smart Student',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.grey
+
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+            ),
             ),
           ],
         ),
