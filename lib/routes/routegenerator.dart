@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_students_check/views/homeScreen.dart';
 import 'package:smart_students_check/views/initial.dart';
 import 'package:lottie/lottie.dart';
 import 'package:smart_students_check/views/login.dart';
@@ -11,7 +12,7 @@ class RouteGenerator {
   static const String ROTA_INICIAL= "/initial_screen";
   static const String ROTA_LOGIN = "/login";
   static const String ROTA_REGISTER = "/register";
-  static const String ROTA_HOME = "/HOMESCREEN";
+  static const String ROTA_HOME = "/home";
 
   static Route<dynamic>? generateRoute( RouteSettings settings ){
 
@@ -31,6 +32,10 @@ class RouteGenerator {
       case ROTA_REGISTER :
         return MaterialPageRoute(
             builder: (_) => const Register()
+        );
+        case ROTA_HOME :
+        return MaterialPageRoute(
+            builder: (_) => const Home()
         );
       default: _erroRota();
     }

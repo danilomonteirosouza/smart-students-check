@@ -96,7 +96,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
 
   void homeRoute(){
-    Navigator.pushNamed(
+    Navigator.pushReplacementNamed(
       context,
       RouteGenerator.ROTA_HOME,
     );
@@ -130,7 +130,7 @@ class _LoginState extends State<Login> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
+              const Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
                 child: TextField(
                   decoration: InputDecoration(
@@ -140,7 +140,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: TextField(
                   decoration: InputDecoration(
@@ -153,7 +153,7 @@ class _LoginState extends State<Login> {
               const SizedBox(height: 70),
               BotaoCustomizadoLong(
                 texto: "Entrar",
-                onPressed: () {
+                onPressed: (){
                   homeRoute();
                 },
               ),

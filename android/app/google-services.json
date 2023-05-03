@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "587106508153",
+    "project_id": "smart-student-project",
+    "storage_bucket": "smart-student-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:587106508153:android:54e4677d1ee2451a8523a8",
+        "android_client_info": {
+          "package_name": "awaken.com.smart_students_check"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "587106508153-tj3oo6133d7isju8760jt2vkr5eoodad.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZepWB9numP8ZYES5PPBiHcB1625XGRfw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "587106508153-tj3oo6133d7isju8760jt2vkr5eoodad.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

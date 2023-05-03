@@ -60,14 +60,14 @@ import 'package:flutter/foundation.dart';
 import '../routes/routegenerator.dart';
 
 
-class homeScreem extends StatefulWidget {
-  const homeScreem({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
-  State<homeScreem> createState() => _homeScreemState();
+  State<Home> createState() => _HomeState();
 }
 
-class _homeScreemState extends State<homeScreem> {
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
