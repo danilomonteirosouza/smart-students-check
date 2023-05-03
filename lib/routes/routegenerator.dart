@@ -11,6 +11,7 @@ class RouteGenerator {
   static const String ROTA_INICIAL= "/initial_screen";
   static const String ROTA_LOGIN = "/login";
   static const String ROTA_REGISTER = "/register";
+  static const String ROTA_HOME = "/HOMESCREEN";
 
   static Route<dynamic>? generateRoute( RouteSettings settings ){
 
