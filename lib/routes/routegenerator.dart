@@ -6,6 +6,7 @@ import 'package:smart_students_check/views/login.dart';
 import 'package:smart_students_check/views/register.dart';
 import 'package:smart_students_check/views/splashscreen.dart';
 
+
 class RouteGenerator {
 
   static const String ROTA_ROOT= "/";

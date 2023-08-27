@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:lottie/lottie.dart';
+import 'package:smart_students_check/views/homeScreen.dart';
 import '../reusable_widgets/elevatedbuttonlong.dart';
 import '../routes/routegenerator.dart';
+import '../database/Usuario.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class InitialScreen extends StatefulWidget {
   const InitialScreen({Key? key}) : super(key: key);
@@ -13,160 +14,167 @@ class InitialScreen extends StatefulWidget {
 }
 
 class _InitialScreenState extends State<InitialScreen> {
+  final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerSenha = TextEditingController();
+  String _mensagemErro = "";
 
-  void loginRoute(){
-    Navigator.pushNamed(
-        context,
-        RouteGenerator.ROTA_LOGIN
+  void homeRoute(){
+    Navigator.pushReplacementNamed(
+      context,
+      RouteGenerator.ROTA_HOME,
     );
   }
 
-  void registerRoute(){
-    Navigator.pushNamed(
-        context,
-        RouteGenerator.ROTA_REGISTER
-    );
+  void _validarCampos() {
+    String email = _controllerEmail.text;
+    String senha = _controllerSenha.text;
+
+    if (email.isNotEmpty && email.contains("@")) {
+      if (senha.isNotEmpty) {
+        setState(() {
+          _mensagemErro = "";
+        });
+
+        Usuario usuario = Usuario();
+        usuario.email = email;
+        usuario.senha = senha;
+
+        _logarUsuario(usuario);
+      } else {
+        setState(() {
+          _mensagemErro = "Preencha a senha!";
+        });
+      }
+    } else {
+      setState(() {
+        _mensagemErro = "Preencha o E-mail utilizando @";
+      });
+    }
+  }
+
+  void _logarUsuario(Usuario usuario) {
+    FirebaseAuth _startDB = FirebaseAuth.instance;
+    
+
+    _startDB
+        .signInWithEmailAndPassword(
+            email: usuario.email, password: usuario.senha)
+        .then((firebaseUser) {
+      Navigator.pushNamed(context, '/home');
+    }).catchError((error) {
+      print("Authentication Error: $error");
+      setState(() {
+        _mensagemErro =
+            "Erro ao autenticar usuário, verifique e-mail e senha e tente novamente!";
+      });
+    });
+  }
+
+  Future<void> _verificarUsuarioLogado() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? usuarioLogado = auth.currentUser;
+    if (usuarioLogado != null) {
+      Navigator.pushNamed(context, '/home');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _verificarUsuarioLogado();
   }
 
   @override
   Widget build(BuildContext context) {
-    if(defaultTargetPlatform == TargetPlatform.android){
-      return Scaffold(
-        backgroundColor: const Color(0xff00ceff),
-        appBar: AppBar(
-          title: const Text('Vamos começar?'),
-          backgroundColor: const Color(0xff00ceff),
-          elevation: 0.0,
-          centerTitle: true,
-        ),
-          body: Container(
-              color: const Color(0xff00ceff),
-              child: Stack(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Expanded(
-                        flex: 4,
-                          child: Padding(
-                            padding: EdgeInsets.zero,
-                            child: Lottie.asset('lib/assets/initial.json'),
-                            )
-                      ),
-                      Expanded(
-                        flex: 2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                child: BotaoCustomizadoLong(
-                                  onPressed: loginRoute,
-                                  texto: 'Login',
-                                )
-                            ),
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                child: BotaoCustomizadoLong(
-                                  onPressed: registerRoute,
-                                  texto: 'Register',
-                                )
-                              ),
-                            ],
-                          )
-                      ),
-                      Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const <Widget>[
-                           SafeArea(
-                             child: Text(
-                               '\u00a9Smart Student',
-                               style: TextStyle(
-                                   fontSize: 20,
-                                   color: Colors.grey
-                               ),
-                             ),
-                           )
-                          ],
-                          )
-                      ),
-                    ],
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(color: Color(0xff00ceff)),
+        padding: const EdgeInsets.all(16),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 32),
+                  child: Lottie.asset(
+                    'lib/assets/initial.json',
+                    width: 200,
+                    height: 150,
                   ),
-                ],
-              )
-        )
-      );
-    } else if(defaultTargetPlatform == TargetPlatform.iOS){
-      return CupertinoPageScaffold(
-        navigationBar: const CupertinoNavigationBar(
-          backgroundColor: Color(0xff00ceff),
-          middle: Text('Vamos comerçar?'),
-        ),
-          child: Container(
-              color: const Color(0xff00ceff),
-              child: Stack(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Expanded(
-                          flex: 4,
-                          child: Padding(
-                            padding: EdgeInsets.zero,
-                            child: Lottie.asset('lib/assets/initial.json'),
-                          )
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: TextField(
+                    controller: _controllerEmail,
+                    autofocus: true,
+                    keyboardType: TextInputType.emailAddress,
+                    style: const TextStyle(fontSize: 20),
+                    decoration: InputDecoration(
+                      contentPadding:
+                          const EdgeInsets.fromLTRB(32, 16, 32, 16),
+                      hintText: "E-mail",
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32),
                       ),
-                      Expanded(
-                          flex: 2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                  child: BotaoCustomizadoLong(
-                                    onPressed: loginRoute,
-                                    texto: 'Login',
-                                  )
-                              ),
-                              Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                  child: BotaoCustomizadoLong(
-                                    onPressed: registerRoute,
-                                    texto: 'Register',
-                                  )
-                              ),
-                            ],
-                          )
-                      ),
-                      Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const <Widget>[
-                              SafeArea(
-                                child: Text(
-                                  '\u00a9Smart Student',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.grey
-                                  ),
-                                ),
-                              )
-                            ],
-                          )
-                      ),
-                    ],
+                    ),
                   ),
-                ],
-              )
-          )
-      );
-    } else {
-      return const Text('System not detected');
-    }
+                ),
+                TextField(
+                  controller: _controllerSenha,
+                  obscureText: true,
+                  keyboardType: TextInputType.text,
+                  style: const TextStyle(fontSize: 20),
+                  decoration: InputDecoration(
+                    contentPadding:
+                        const EdgeInsets.fromLTRB(32, 16, 32, 16),
+                    hintText: "Senha",
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16, bottom: 10),
+                  child: ElevatedButton(
+                      onPressed: (){
+                        homeRoute();
+                      },
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: GestureDetector(
+                    child: const Text(
+                      "Não tem conta? Cadastre-se!",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/register');
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Center(
+                    child: Text(
+                      _mensagemErro,
+                      style: const TextStyle(color: Colors.red, fontSize: 20),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
-
-

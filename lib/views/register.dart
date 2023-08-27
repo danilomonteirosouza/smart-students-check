@@ -141,7 +141,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import '../routes/routegenerator.dart';
 import '../reusable_widgets/elevatedbuttonlong.dart';
-import '';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);

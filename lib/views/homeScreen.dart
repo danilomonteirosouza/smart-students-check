@@ -57,7 +57,6 @@ class _homeScreemState extends State<homeScreem> {
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import '../routes/routegenerator.dart';
 
 
 class Home extends StatefulWidget {
