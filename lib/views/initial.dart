@@ -4,7 +4,6 @@ import 'package:smart_students_check/views/homeScreen.dart';
 import '../reusable_widgets/elevatedbuttonlong.dart';
 import '../routes/routegenerator.dart';
 import '../database/Usuario.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class InitialScreen extends StatefulWidget {
   const InitialScreen({Key? key}) : super(key: key);
@@ -35,11 +34,16 @@ class _InitialScreenState extends State<InitialScreen> {
           _mensagemErro = "";
         });
 
-        Usuario usuario = Usuario();
-        usuario.email = email;
-        usuario.senha = senha;
+        Usuario usuario = Usuario(email: email, senha: senha);
 
-        _logarUsuario(usuario);
+        usuario.logarUsuario().then((userCredential) {
+          homeRoute(); // Navigate to home screen upon successful login
+        }).catchError((error) {
+          setState(() {
+            _mensagemErro =
+            "Erro ao autenticar usuário, verifique e-mail e senha e tente novamente!";
+          });
+        });
       } else {
         setState(() {
           _mensagemErro = "Preencha a senha!";
@@ -50,38 +54,6 @@ class _InitialScreenState extends State<InitialScreen> {
         _mensagemErro = "Preencha o E-mail utilizando @";
       });
     }
-  }
-
-  void _logarUsuario(Usuario usuario) {
-    FirebaseAuth _startDB = FirebaseAuth.instance;
-    
-
-    _startDB
-        .signInWithEmailAndPassword(
-            email: usuario.email, password: usuario.senha)
-        .then((firebaseUser) {
-      Navigator.pushNamed(context, '/home');
-    }).catchError((error) {
-      print("Authentication Error: $error");
-      setState(() {
-        _mensagemErro =
-            "Erro ao autenticar usuário, verifique e-mail e senha e tente novamente!";
-      });
-    });
-  }
-
-  Future<void> _verificarUsuarioLogado() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? usuarioLogado = auth.currentUser;
-    if (usuarioLogado != null) {
-      Navigator.pushNamed(context, '/home');
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _verificarUsuarioLogado();
   }
 
   @override
@@ -112,7 +84,7 @@ class _InitialScreenState extends State<InitialScreen> {
                     style: const TextStyle(fontSize: 20),
                     decoration: InputDecoration(
                       contentPadding:
-                          const EdgeInsets.fromLTRB(32, 16, 32, 16),
+                      const EdgeInsets.fromLTRB(32, 16, 32, 16),
                       hintText: "E-mail",
                       filled: true,
                       fillColor: Colors.white,
@@ -129,7 +101,7 @@ class _InitialScreenState extends State<InitialScreen> {
                   style: const TextStyle(fontSize: 20),
                   decoration: InputDecoration(
                     contentPadding:
-                        const EdgeInsets.fromLTRB(32, 16, 32, 16),
+                    const EdgeInsets.fromLTRB(32, 16, 32, 16),
                     hintText: "Senha",
                     filled: true,
                     fillColor: Colors.white,
@@ -141,9 +113,7 @@ class _InitialScreenState extends State<InitialScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 16, bottom: 10),
                   child: ElevatedButton(
-                      onPressed: (){
-                        homeRoute();
-                      },
+                    onPressed: _validarCampos,
                     child: const Text(
                       "Login",
                       style: TextStyle(color: Colors.white, fontSize: 20),
