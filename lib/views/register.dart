@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../routes/routegenerator.dart';
 import '../reusable_widgets/elevatedbuttonlong.dart';
 
@@ -13,14 +14,31 @@ class _RegisterState extends State<Register> {
   String nome = '';
   String email = '';
   String password = '';
+  String _mensagemErro = '';
 
   void initialRoute() {
     Navigator.pushNamed(context, RouteGenerator.ROTA_INICIAL);
   }
 
+  void _cadastrarUsuario() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Cadastro bem-sucedido, você pode navegar para outra página aqui
+      initialRoute();
+    } catch (error) {
+      print("Erro ao cadastrar usuário: $error");
+      setState(() {
+        _mensagemErro = "Erro ao cadastrar usuário, verifique os campos e tente novamente!";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    //Criação do titulo cadastro na AppBar
     return Scaffold(
       backgroundColor: const Color(0xff00ceff),
       appBar: AppBar(
@@ -33,7 +51,6 @@ class _RegisterState extends State<Register> {
         centerTitle: true,
       ),
       body: Container(
-        //Preenchendo o corpo da tela com a cor padrão
         decoration: const BoxDecoration(
             gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -51,7 +68,6 @@ class _RegisterState extends State<Register> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
-                  //Widget coluna usado junto com o TextField para colocar as strings recebidas do usuario
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     TextField(
@@ -103,11 +119,16 @@ class _RegisterState extends State<Register> {
                     ),
                     const SizedBox(height: 15),
                     BotaoCustomizadoLong(
-                      texto: "Entrar",
+                      texto: "Cadastrar",
                       onPressed: () {
-                        initialRoute();
+                        _cadastrarUsuario(); // Chame a função de cadastro aqui
                       },
                     ),
+                    if (_mensagemErro.isNotEmpty)
+                      Text(
+                        _mensagemErro,
+                        style: TextStyle(color: Colors.red),
+                      ),
                   ],
                 ),
               ),
